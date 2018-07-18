@@ -17,22 +17,34 @@ public class CurrencyRule implements Rule {
         String fieldsStr = findAllCurrencies(trade).entrySet().stream()
                 .filter(curr -> !isCurrencyCorrect(curr.getValue(), currencies))
                 .map(curr -> curr.getKey())
-                .reduce("", (f1, f2) -> f1 + ", " + f2);
+                .reduce("", (f1, f2) -> f1 + " " + f2);
 
-         return Optional.ofNullable(
-                 fieldsStr.isEmpty() ? null : new Error("Currency is not valid in field: " + fieldsStr)
-         );
+        return Optional.ofNullable(
+                fieldsStr.isEmpty() ? null : new Error("Currency is not valid in field:" + fieldsStr)
+        );
+    }
+
+    @Override
+    public boolean isApplicable(Trade trade) {
+        return true;
     }
 
     private Map<String, String> findAllCurrencies(Trade trade) {
         Map<String, String> currencies = new HashMap<>();
         if (Objects.nonNull(trade.getCcyPair())) {
-            currencies.put("CcyPair", trade.getCcyPair().trim());
+            currencies.put("CcyPair First", trade.getCcyPair().trim().substring(0, 3));
+            currencies.put("CcyPair Second", trade.getCcyPair().trim().substring(3));
         }
 
-        if (trade instanceof BaseOption
-                && Objects.nonNull(((BaseOption) trade).getPremiumCcy())) {
-            currencies.put("PremiumCcy", trade.getCcyPair().trim());
+        if (trade instanceof BaseOption) {
+            BaseOption option = (BaseOption) trade;
+            if (Objects.nonNull(option.getPremiumCcy())) {
+                currencies.put("PremiumCcy", option.getPremiumCcy().trim());
+            }
+
+            if (Objects.nonNull(option.getPayCcy())) {
+                currencies.put("PayCcy", option.getPayCcy().trim());
+            }
         }
 
         return currencies;

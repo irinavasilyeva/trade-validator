@@ -21,6 +21,11 @@ public class ValueDateBeforeTradeDateRule implements Rule {
 
     }
 
+    @Override
+    public boolean isApplicable(Trade trade) {
+        return true;
+    }
+
     private boolean areFieldsPresent(Trade trade) {
         return Objects.nonNull(trade.getValueDate())
                 && Objects.nonNull(trade.getTradeDate());

@@ -1,4 +1,4 @@
-package com.vasylieva;
+package com.vasylieva.prototypeStub;
 
 import java.time.LocalDate;
 

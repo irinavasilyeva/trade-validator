@@ -8,7 +8,5 @@ import java.util.Optional;
 public interface Rule {
     Optional<Error> apply(Trade trade);
 
-    default boolean isApplicable(Trade trade) {
-        return true;
-    }
+    boolean isApplicable(Trade trade);
 }

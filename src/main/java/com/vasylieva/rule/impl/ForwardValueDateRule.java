@@ -1,6 +1,6 @@
 package com.vasylieva.rule.impl;
 
-import com.vasylieva.CurrentDateHandler;
+import com.vasylieva.prototypeStub.CurrentDateHandler;
 import com.vasylieva.model.Error;
 import com.vasylieva.model.Trade;
 import com.vasylieva.model.type.TradeType;

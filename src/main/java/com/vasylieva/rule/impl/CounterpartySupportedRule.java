@@ -18,6 +18,11 @@ public class CounterpartySupportedRule implements Rule {
         return Optional.ofNullable(error);
     }
 
+    @Override
+    public boolean isApplicable(Trade trade) {
+        return true;
+    }
+
     private boolean isCustomerSupported(String customer) {
         return Arrays.stream(CustomerType.values()).anyMatch(c -> c.name().equalsIgnoreCase(customer));
     }

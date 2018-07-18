@@ -1,5 +1,7 @@
 package com.vasylieva.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.vasylieva.model.type.TradeType;
@@ -28,6 +30,17 @@ public abstract class Trade {
     private LocalDate valueDate;
     private String legalEntity;
     private String trader;
+
+    @JsonCreator
+    public Trade(@JsonProperty(required = true) TradeType type,
+                 @JsonProperty(required = true) LocalDate tradeDate) {
+        this.type = type;
+        this.tradeDate = tradeDate;
+    }
+
+    public Trade() {
+        //need
+    }
 
     public TradeType getType() {
         return type;

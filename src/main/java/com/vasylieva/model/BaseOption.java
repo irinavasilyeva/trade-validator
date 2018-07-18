@@ -1,14 +1,14 @@
 package com.vasylieva.model;
 
-import javax.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class BaseOption extends Trade {
     private String style;
     private String strategy;
-
-    @NotNull
     private LocalDate deliveryDate;
     private LocalDate expiryDate;
     private LocalDate excerciseStartDate;
@@ -16,9 +16,21 @@ public class BaseOption extends Trade {
     private String premiumCcy;
     private String premiumType;
     private LocalDate premiumDate;
+    private String payCcy;
+
+    @JsonCreator
+    public BaseOption(@JsonProperty(required = true) String style,
+                      @JsonProperty(required = true) LocalDate deliveryDate,
+                      @JsonProperty(required = true) LocalDate expiryDate,
+                      @JsonProperty(required = true) LocalDate premiumDate) {
+        this.style = style;
+        this.deliveryDate = deliveryDate;
+        this.expiryDate = expiryDate;
+        this.premiumDate = premiumDate;
+    }
 
     public BaseOption() {
-
+        //need
     }
 
     public String getStyle() {
@@ -41,9 +53,9 @@ public class BaseOption extends Trade {
         return deliveryDate;
     }
 
-/*    public void setDeliveryDate(LocalDate deliveryDate) {
+    public void setDeliveryDate(LocalDate deliveryDate) {
         this.deliveryDate = deliveryDate;
-    }*/
+    }
 
     public LocalDate getExpiryDate() {
         return expiryDate;
@@ -91,5 +103,13 @@ public class BaseOption extends Trade {
 
     public void setPremiumDate(LocalDate premiumDate) {
         this.premiumDate = premiumDate;
+    }
+
+    public String getPayCcy() {
+        return payCcy;
+    }
+
+    public void setPayCcy(String payCcy) {
+        this.payCcy = payCcy;
     }
 }

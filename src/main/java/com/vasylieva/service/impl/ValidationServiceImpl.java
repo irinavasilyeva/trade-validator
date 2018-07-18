@@ -22,10 +22,12 @@ public class ValidationServiceImpl implements ValidationService {
     public List<ValidationResult> validate(List<Trade> trades) {
         return trades.stream()
                 .map(this::validateToResult)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .collect(Collectors.toList());
     }
 
-    private ValidationResult validateToResult(Trade trade) {
+    private Optional<ValidationResult> validateToResult(Trade trade) {
         Set<Error> errors = rules.stream()
                 .filter(rule -> rule.isApplicable(trade))
                 .map(rule -> rule.apply(trade))
@@ -33,6 +35,7 @@ public class ValidationServiceImpl implements ValidationService {
                 .map(Optional::get)
                 .collect(Collectors.toSet());
 
-        return new ValidationResult(trade, errors);
+        return Optional.ofNullable(errors.isEmpty() ? null
+                : new ValidationResult(trade, errors));
     }
 }
