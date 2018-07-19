@@ -19,6 +19,7 @@ public class ValidationServiceImpl implements ValidationService {
     @Autowired
     private Set<Rule> rules;
 
+    @Override
     public List<ValidationResult> validate(List<Trade> trades) {
         return trades.stream()
                 .map(this::validateToResult)

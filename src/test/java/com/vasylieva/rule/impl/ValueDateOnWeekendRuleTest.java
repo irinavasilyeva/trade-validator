@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.hamcrest.core.Is.is;
@@ -14,25 +15,33 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class CounterpartySupportedRuleTest {
+public class ValueDateOnWeekendRuleTest {
 
-    private CounterpartySupportedRule rule = new CounterpartySupportedRule();
+    private ValueDateOnWeekendRule rule = new ValueDateOnWeekendRule();
 
-    @DisplayName("Should create error when the customer not supported")
-    @ParameterizedTest(name = "{index} => customer={0}, error created={1}")
+    @DisplayName("Should create error when the value date is on weekend ")
+    @ParameterizedTest(name = "{index} => valueDate={0}, error created={1}")
     @CsvSource({
-            "PLUTO1, false",
-            "PLUTO2, false",
-            "NOT_SUPPORTED, true",
-            "null, true"
+            "2018-07-19, false",
+            "2018-07-21, true"
     })
-    void shouldValidateCounterparty(String customer, boolean error) {
+    void shouldValidateValueDate(LocalDate valueDate, boolean error) {
         Trade trade = mock(Trade.class);
-        when(trade.getCustomer()).thenReturn(customer);
+        when(trade.getValueDate()).thenReturn(valueDate);
 
         Optional<Error> result = rule.apply(trade);
 
         assertThat(result.isPresent(), is(error));
+    }
+
+    @Test
+    public void shouldNotCreateErrorWhenNoValueDate() {
+        Trade trade = mock(Trade.class);
+        when(trade.getValueDate()).thenReturn(null);
+
+        Optional<Error> result = rule.apply(trade);
+
+        assertThat(result.isPresent(), is(false));
     }
 
     @Test

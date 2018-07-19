@@ -8,6 +8,7 @@ import com.vasylieva.model.type.TradeType;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -128,5 +129,29 @@ public abstract class Trade {
 
     public void setValueDate(LocalDate valueDate) {
         this.valueDate = valueDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Trade trade = (Trade) o;
+        return type == trade.type &&
+                Objects.equals(customer, trade.customer) &&
+                Objects.equals(ccyPair, trade.ccyPair) &&
+                Objects.equals(direction, trade.direction) &&
+                Objects.equals(tradeDate, trade.tradeDate) &&
+                Objects.equals(amount1, trade.amount1) &&
+                Objects.equals(amount2, trade.amount2) &&
+                Objects.equals(rate, trade.rate) &&
+                Objects.equals(valueDate, trade.valueDate) &&
+                Objects.equals(legalEntity, trade.legalEntity) &&
+                Objects.equals(trader, trade.trader);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(type, customer, ccyPair, direction, tradeDate, amount1, amount2, rate, valueDate, legalEntity, trader);
     }
 }

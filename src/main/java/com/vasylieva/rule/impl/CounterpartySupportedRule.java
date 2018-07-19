@@ -4,10 +4,12 @@ import com.vasylieva.model.Error;
 import com.vasylieva.model.Trade;
 import com.vasylieva.model.type.CustomerType;
 import com.vasylieva.rule.Rule;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.Optional;
 
+@Component
 public class CounterpartySupportedRule implements Rule {
 
     @Override

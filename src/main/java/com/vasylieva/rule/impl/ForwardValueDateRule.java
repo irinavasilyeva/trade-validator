@@ -1,16 +1,20 @@
 package com.vasylieva.rule.impl;
 
-import com.vasylieva.prototypeStub.CurrentDateHandler;
+import com.vasylieva.mock.CurrentDateHandler;
 import com.vasylieva.model.Error;
 import com.vasylieva.model.Trade;
 import com.vasylieva.model.type.TradeType;
 import com.vasylieva.rule.Rule;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
 public class ForwardValueDateRule implements Rule {
+
+    @Autowired
+    private CurrentDateHandler currentDateHandler;
 
     @Override
     public Optional<Error> apply(Trade trade) {
@@ -25,6 +29,6 @@ public class ForwardValueDateRule implements Rule {
     }
 
     private boolean checkValueDateForForward(Trade trade) {
-        return trade.getValueDate().isAfter(CurrentDateHandler.CURRENT_DATE.plusDays(2));
+        return trade.getValueDate().isAfter(currentDateHandler.getCurrentDate().plusDays(2));
     }
 }

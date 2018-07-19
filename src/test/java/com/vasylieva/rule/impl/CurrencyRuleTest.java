@@ -82,4 +82,9 @@ public class CurrencyRuleTest {
         assertThat(result.get().getMessage().contains("PremiumCcy"), is(true));
         assertThat(result.get().getMessage().contains("PayCcy"), is(true));
     }
+
+    @Test
+    public void shouldBeApplicableForAllTrades() {
+        assertThat(rule.isApplicable(mock(Trade.class)), is(true));
+    }
 }

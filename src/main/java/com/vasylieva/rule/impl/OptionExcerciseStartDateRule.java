@@ -8,6 +8,7 @@ import com.vasylieva.model.type.TradeType;
 import com.vasylieva.rule.Rule;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -25,7 +26,9 @@ public class OptionExcerciseStartDateRule implements Rule {
     @Override
     public boolean isApplicable(Trade trade) {
         return TradeType.VanillaOption == trade.getType()
-                && OptionStyle.valueOf(((BaseOption) trade).getStyle()) == OptionStyle.AMERICAN;
+                && Arrays.asList(
+                        OptionStyle.AMERICAN.name(),
+                        OptionStyle.EUROPEAN.name()).contains(((BaseOption) trade).getStyle());
     }
 
     private boolean checkExcerciseStartDate(BaseOption option) {

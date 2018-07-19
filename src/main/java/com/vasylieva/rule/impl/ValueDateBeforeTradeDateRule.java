@@ -13,7 +13,7 @@ public class ValueDateBeforeTradeDateRule implements Rule {
 
     @Override
     public Optional<Error> apply(Trade trade) {
-        Error error = areFieldsPresent(trade) && valueDateBeforeTrade(trade) ?
+        Error error = Objects.nonNull(trade.getValueDate()) && valueDateBeforeTrade(trade) ?
                 new Error("Value date is before Trade date")
                 : null;
 
@@ -24,11 +24,6 @@ public class ValueDateBeforeTradeDateRule implements Rule {
     @Override
     public boolean isApplicable(Trade trade) {
         return true;
-    }
-
-    private boolean areFieldsPresent(Trade trade) {
-        return Objects.nonNull(trade.getValueDate())
-                && Objects.nonNull(trade.getTradeDate());
     }
 
     private boolean valueDateBeforeTrade(Trade trade) {
